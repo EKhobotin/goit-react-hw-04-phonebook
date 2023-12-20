@@ -1,55 +1,56 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Form, Container, Label, Button, Input } from './FormAddContact.styled';
 
-export class FormAddContact extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export const FormAddContact = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { name, number } = this.state;
-    // console.log(this.props);
-    // console.log(this.state);
-    this.props.onSubmit(name, number);
-    this.setState({ name: '', number: '' });
-  };
-  handleChangeContact = e => {
-    // console.log(e.target.name);
+  const handleChangeContact = e => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        break;
+    }
   };
 
-  render() {
-    // console.log(this.props);
-    const { name, number } = this.state;
-    return (
-      <Container>
-        <Form onSubmit={this.handleSubmit}>
-          <Label>
-            Contact Name:
-            <Input
-              type="text"
-              name="name"
-              required
-              value={name}
-              onChange={this.handleChangeContact}
-            />
-          </Label>
-          <Label>
-            Phone number:
-            <Input
-              type="tel"
-              name="number"
-              required
-              value={number}
-              onChange={this.handleChangeContact}
-            />
-          </Label>
-          <Button type="submit">Додати контакт</Button>
-        </Form>
-      </Container>
-    );
-  }
-}
+  const handleSubmit = e => {
+    e.preventDefault();
+    onSubmit(name, number);
+    setName('');
+    setNumber('');
+  };
+
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Label>
+          Contact Name:
+          <Input
+            type="text"
+            name="name"
+            required
+            value={name}
+            onChange={handleChangeContact}
+          />
+        </Label>
+        <Label>
+          Phone number:
+          <Input
+            type="tel"
+            name="number"
+            required
+            value={number}
+            onChange={handleChangeContact}
+          />
+        </Label>
+        <Button type="submit">Додати контакт</Button>
+      </Form>
+    </Container>
+  );
+};
