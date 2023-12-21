@@ -38,7 +38,8 @@ export const App = () => {
     setContacts(prevState => [...prevState, { id: nanoid, name, number }]);
     console.log('click add');
   };
-  const deleteContact = id => setContacts(contacts.filter(el => el.id !== id));
+  const deleteContact = id =>
+    setContacts(prevState => prevState.filter(el => el.id !== id));
   const getSearch = search => setFilter(search);
   const getFilteredContacts = () =>
     contacts.filter(el =>
